@@ -1,2 +1,6 @@
 # cs460final-project
-My final project of Computer Graphics course.
+A Three.js WebGL project for the Computer Graphics course.
+
+# Team members:
+- Xu Huang Lin [(xh-lin)](https://github.com/xh-lin)
+- Pengbo Xing [(BobbyXing)](https://github.com/BobbyXing)
