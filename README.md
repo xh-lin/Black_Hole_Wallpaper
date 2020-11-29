@@ -1,4 +1,4 @@
-# cs460final-project
+# black-hole-particles
 A Three.js WebGL project for the Computer Graphics course.
 
 # Team members:
