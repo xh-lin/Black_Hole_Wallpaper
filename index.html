@@ -41,10 +41,10 @@
 
         scene = new THREE.Scene();
 
-        ambientLight = new THREE.AmbientLight( 0x404040 );
+        ambientLight = new THREE.AmbientLight( 0xffffff );
         scene.add( ambientLight );
 
-        light = new THREE.DirectionalLight( 0xffffff, 8.0 );
+        light = new THREE.DirectionalLight( 0xffffff, 10.0 );
         light.position.set( 10, 100, 10 );
         scene.add( light );
 
@@ -55,10 +55,9 @@
         controls.rotateSpeed = 5.0;
 
         /******************************************************************************************/
-        /* tesing cube */
 
-        var geometry = new THREE.BoxBufferGeometry( 10, 10, 10 );
-        var material = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
+        var geometry = new THREE.SphereGeometry( 10, 10, 10 );
+        var material = new THREE.MeshStandardMaterial({ color: 'black' });
         var mesh = new THREE.Mesh( geometry, material );
 
         scene.add( mesh );
@@ -70,7 +69,7 @@
         */
 
         // create the particle variables
-        particleCount = 1800;
+        particleCount = 100;
         particles = new THREE.Geometry();
         pMaterial = new THREE.PointsMaterial({
           color: 0xffffff,
