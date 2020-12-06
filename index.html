@@ -11,9 +11,11 @@
       }
     </style>
 
+    <script src="black_hole.js" type="text/javascript"></script>
     <script src="https://threejs.org/build/three.min.js" type="text/javascript"></script>
-    <script src="https://threejs.org/examples/js/controls/TrackballControls.js" 
-        type="text/javascript"></script>
+    <script src="https://threejs.org/examples/js/controls/TrackballControls.js" type="text/javascript"></script>
+    <script src="https://threejs.org/examples/js/libs/dat.gui.min.js" type="text/javascript"></script>
+    <script src='http://josephg.github.io/noisejs/perlin.js'></script>
 
     <script>
 
@@ -22,81 +24,40 @@
         /******************************************************************************************/
         /* setup the scene */
 
+        // camera
         fov = 75;
         ratio = window.innerWidth / window.innerHeight;
         zNear = 1;
         zFar = 10000;
         camera = new THREE.PerspectiveCamera( fov, ratio, zNear, zFar );
-        camera.position.set( 0, 0, 100 );
+        camera.position.set( 0, 200, 300 );
 
+        // renderer
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
+        // trackball control
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 5.0;
+
+        // scene
         scene = new THREE.Scene();
 
-        ambientLight = new THREE.AmbientLight( 0xffffff );
+        ambientLight = new THREE.AmbientLight( 0x040404 );
         scene.add( ambientLight );
 
         light = new THREE.DirectionalLight( 0xffffff, 10.0 );
         light.position.set( 10, 100, 10 );
         scene.add( light );
 
-        light_helper = new THREE.DirectionalLightHelper( light, 5 );
+        light_helper = new THREE.DirectionalLightHelper( light, 1 );
         scene.add( light_helper );
 
-        controls = new THREE.TrackballControls( camera, renderer.domElement );
-        controls.rotateSpeed = 5.0;
-
         /******************************************************************************************/
 
-        var geometry = new THREE.SphereGeometry( 10, 10, 10 );
-        var material = new THREE.MeshStandardMaterial({ color: 'black' });
-        var mesh = new THREE.Mesh( geometry, material );
-
-        scene.add( mesh );
-
-        /******************************************************************************************/
-        /* 
-          Three.js particle tutorial
-          https://aerotwist.com/tutorials/creating-particles-with-three-js/ 
-        */
-
-        // create the particle variables
-        particleCount = 100;
-        particles = new THREE.Geometry();
-        pMaterial = new THREE.PointsMaterial({
-          color: 0xffffff,
-          size: 5,
-          map: new THREE.TextureLoader().load(
-            "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/sprites/circle.png"
-          ),
-          blending: THREE.AdditiveBlending,
-          transparent: true
-        });
-
-        // now create the individual particles
-        for (var p = 0; p < particleCount; p++) {
-          // create a particle with random
-          // position values, -250 -> 250
-          var pX = Math.random() * 500 - 250;
-          var pY = 0;
-          var pZ = Math.random() * 500 - 250;
-          var particle = new THREE.Vector3( pX, pY, pZ );
-          // create a velocity vector
-          particle.velocity = new THREE.Vector3(
-            0,              // x
-            -Math.random(), // y: random vel
-            0);             // z
-          // add it to the geometry
-          particles.vertices.push( particle );
-        }
-
-        // create the particle system
-        particleSystem = new THREE.Points( particles, pMaterial );
-
-        // add it to the scene
-        scene.add( particleSystem );
+        black_hole = new BlackHole();
+        black_hole.show(scene);
 
         /******************************************************************************************/
 
@@ -106,37 +67,11 @@
 
       function animate() {
 
-        // add some rotation to the system
-        particleSystem.rotation.y += 0.0001;
-
-        var pCount = particleCount;
-        while (pCount--) {
-          // get the particle
-          var particle = particles.vertices[pCount];
-          // check if we need to reset
-          if (particle.y < -200) {
-            particle.y = 200;
-            particle.velocity.y = 0;
-          }
-
-          // update the velocity with
-          // a splat of randomniz
-          particle.velocity.y -= Math.random() * .1;
-
-          // and the position
-          //particle.add( particle.velocity );
-        }
-
-        // flag to the particle system
-        // that we've changed its vertices.
-        particleSystem.geometry.verticesNeedUpdate = true;
-
+        black_hole.onAnimate();
 
         controls.update();
-        // draw
         renderer.render( scene, camera );
-        
-        // set up the next call
+
         requestAnimationFrame( animate );
 
       }
