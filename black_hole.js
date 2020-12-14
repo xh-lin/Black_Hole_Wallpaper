@@ -61,7 +61,7 @@ class BlackHole{
     this.jetParticleCount = 30000;
     this.jetParticles = new THREE.Geometry();
     const jetParticleMat = new THREE.PointsMaterial({
-      size: 10,
+      size: 30,
       color: 0x3030ff
     });
 
