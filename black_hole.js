@@ -32,8 +32,8 @@ class BlackHole{
     // create individual disk particles
     for (var p = 0; p < this.diskParticleCount; p++) {
       // position
-      const radius = Math.random()*this.diskRange + this.diskStart;
       const theta = Math.random() * 2*Math.PI;
+      const radius = Math.random()*this.diskRange + this.diskStart + 200*noise.perlin2(1, theta*300);
       const x = radius * Math.cos( theta );
       const y = Math.random()*this.diskThickness - this.diskThickness/2;
       const z = radius * Math.sin( theta );
@@ -112,7 +112,7 @@ class BlackHole{
         jParticle.jetted = true;
       }
       // set velocity
-      const radius = Math.random();
+      const radius = Math.random()/1.5;
       const theta = Math.random() * 2*Math.PI;
       const x = radius * Math.cos( theta );
       const y = 8 * (this.jetDirection *= -1);
