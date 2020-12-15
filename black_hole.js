@@ -25,8 +25,14 @@ class BlackHole{
     this.diskParticleCount = 30000;
     this.diskParticles = new THREE.Geometry();
     const diskParticleMat = new THREE.PointsMaterial({
-      size: 10,
-      vertexColors: true
+      vertexColors: true,
+      size: 20,
+      map: THREE.ImageUtils.loadTexture(
+        "particle.png"
+      ),
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthWrite: false
     });
 
     // create individual disk particles
@@ -52,8 +58,9 @@ class BlackHole{
     // =========================================================================
     // jet
     this.isJetting = true;
-    this.jettingInterval = 0;
+    this.jettingInterval = 1;
     this.jetCountDown = 0;
+    this.jetMult = 3;
     this.jetNext = 0;
     this.jetDirection = 1; // 1 / -1
 
@@ -61,8 +68,14 @@ class BlackHole{
     this.jetParticleCount = 30000;
     this.jetParticles = new THREE.Geometry();
     const jetParticleMat = new THREE.PointsMaterial({
-      size: 30,
-      color: 0x3030ff
+      size: 60,
+      color: 0x3030ff,
+      map: THREE.ImageUtils.loadTexture(
+        "particle.png"
+      ),
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthWrite: false
     });
 
     // create individual jet particles
@@ -102,25 +115,27 @@ class BlackHole{
     // =========================================================================
     // launch next jet particle
     if (this.isJetting && !this.jetCountDown--) {
-      var jParticle = this.jetParticles.vertices[this.jetNext];
-      if (jParticle.jetted) {
-        // reuse
-        jParticle.set( 0, 0, 0 );
-        jParticle.velocity.set( 0, 0, 0 );
+      for (var i = 0; i < this.jetMult; i++) {
+        var jParticle = this.jetParticles.vertices[this.jetNext];
+        if (jParticle.jetted) {
+          // reuse
+          jParticle.set( 0, 0, 0 );
+          jParticle.velocity.set( 0, 0, 0 );
+        }
+        else {
+          jParticle.jetted = true;
+        }
+        // set velocity
+        const radius = Math.random();
+        const theta = Math.random() * 2*Math.PI;
+        const x = radius * Math.cos( theta );
+        const y = 8 * (this.jetDirection *= -1);
+        const z = radius * Math.sin( theta );
+        jParticle.velocity.set( x, y, z );
+        // get ready for next one
+        this.jetNext = ++this.jetNext % this.jetParticleCount
+        this.jetCountDown = this.jettingInterval;
       }
-      else {
-        jParticle.jetted = true;
-      }
-      // set velocity
-      const radius = Math.random()/1.5;
-      const theta = Math.random() * 2*Math.PI;
-      const x = radius * Math.cos( theta );
-      const y = 8 * (this.jetDirection *= -1);
-      const z = radius * Math.sin( theta );
-      jParticle.velocity.set( x, y, z );
-      // get ready for next one
-      this.jetNext = ++this.jetNext % this.jetParticleCount
-      this.jetCountDown = this.jettingInterval;
     }
 
     // for each launched jet particle
