@@ -60,6 +60,7 @@ class BlackHole{
       const z = radius * Math.sin( theta );
       var particle = new THREE.Vector3( x, y, z );
       this.diskParticles.vertices.push( particle );
+      // color
       if (radius < 400) {
         const a = (radius - this.diskStart) / 300;
         this.diskParticles.colors.push( colorBetween(colors[0], colors[1], a) );
@@ -106,12 +107,43 @@ class BlackHole{
     }
 
     this.jetParticleSystem = new THREE.Points( this.jetParticles, jetParticleMat );
+
+    // =========================================================================
+    // stars
+    const starCount = 1000;
+    this.starParticles = new THREE.Geometry();
+    const starParticleMat = new THREE.PointsMaterial({
+      vertexColors: true,
+      size: 200,
+      map: new THREE.TextureLoader().load(
+        "spark1.png"
+      ),
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthWrite: false
+    });
+
+    for ( var i = 0; i < starCount; i++) {
+      // position
+      const theta = Math.random() * 2*Math.PI;
+      const phi = Math.random() * 2*Math.PI;
+      const radius = 10000 + Math.random()*100000;
+      const x = radius * Math.sin( theta ) * Math.cos( phi );
+      const y = radius * Math.sin( theta ) * Math.sin( phi );
+      const z = radius * Math.cos( theta );
+      var particle = new THREE.Vector3( x, y, z );
+      this.starParticles.vertices.push( particle );
+      this.starParticles.colors.push( new THREE.Color( Math.random()*0xffffff ) );
+    }
+
+    this.stars = new THREE.Points( this.starParticles, starParticleMat );
   }
 
   show(scene) {
     scene.add( this.sphereMesh );
     scene.add( this.diskParticleSystem );
     scene.add( this.jetParticleSystem );
+    scene.add( this.stars );
   }
 
   onAnimate() {
