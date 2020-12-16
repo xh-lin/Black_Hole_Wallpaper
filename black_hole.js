@@ -4,10 +4,25 @@
   https://aerotwist.com/tutorials/creating-particles-with-three-js/ 
 */
 
+// get color in between from color A to B
+// alpha: [0, 1]
+colorBetween = function(colorA, colorB, alpha) {
+  const dR = colorB.r - colorA.r;
+  const dG = colorB.g - colorA.g;
+  const dB = colorB.b - colorA.b;
+  return new THREE.Color( colorA.r+dR*alpha, colorA.g+dG*alpha, colorA.b+dB*alpha );
+};
 
 class BlackHole{
 
   constructor() {
+
+    var colors = [];
+    colors.push(new THREE.Color('lightyellow'));
+    colors.push(new THREE.Color('orange'));
+    colors.push(new THREE.Color('violet'));
+    colors.push(new THREE.Color('blue'));
+
     // black sphere (event horizon)
     const sphereGeo = new THREE.SphereGeometry( 90, 90, 90 );
     const darkMat = new THREE.MeshStandardMaterial({ color: 'black' });
@@ -28,7 +43,7 @@ class BlackHole{
       vertexColors: true,
       size: 20,
       map: THREE.ImageUtils.loadTexture(
-        "particle.png"
+        "spark1.png"
       ),
       blending: THREE.AdditiveBlending,
       transparent: true,
@@ -45,12 +60,16 @@ class BlackHole{
       const z = radius * Math.sin( theta );
       var particle = new THREE.Vector3( x, y, z );
       this.diskParticles.vertices.push( particle );
-      // color
-      const r = noise.perlin2( x/1000, radius/200 )/2 + 0.5;
-      const g = 0.5;
-      const b = 0.5;
-      var color = new THREE.Color( r, g, b );
-      this.diskParticles.colors.push( color );
+      if (radius < 400) {
+        const a = (radius - this.diskStart) / 300;
+        this.diskParticles.colors.push( colorBetween(colors[0], colors[1], a) );
+      } else if (radius < 700) {
+        const a = (radius - 400) / 300;
+        this.diskParticles.colors.push( colorBetween(colors[1], colors[2], a) );
+      } else {
+        const a = (radius - 700) / 300;
+        this.diskParticles.colors.push( colorBetween(colors[2], colors[3], a) );
+      }
     }
 
     this.diskParticleSystem = new THREE.Points( this.diskParticles, diskParticleMat );
@@ -69,9 +88,9 @@ class BlackHole{
     this.jetParticles = new THREE.Geometry();
     const jetParticleMat = new THREE.PointsMaterial({
       size: 60,
-      color: 0x3030ff,
+      color: 'lightskyblue',
       map: THREE.ImageUtils.loadTexture(
-        "particle.png"
+        "spark1.png"
       ),
       blending: THREE.AdditiveBlending,
       transparent: true,

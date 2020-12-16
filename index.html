@@ -28,9 +28,9 @@
         fov = 75;
         ratio = window.innerWidth / window.innerHeight;
         zNear = 1;
-        zFar = 1000000;
+        zFar = 10000000;
         camera = new THREE.PerspectiveCamera( fov, ratio, zNear, zFar );
-        camera.position.set( -620, 220, 1300 );
+        camera.position.set( -800, 300, 1700 );
         camera.up.set(-.5, 1, 0);
 
         // renderer
@@ -48,17 +48,31 @@
         ambientLight = new THREE.AmbientLight( 0x040404 );
         scene.add( ambientLight );
 
-        light = new THREE.DirectionalLight( 0xffffff, 10.0 );
-        light.position.set( 10, 100, 10 );
-        //scene.add( light );
-
-        light_helper = new THREE.DirectionalLightHelper( light, 1 );
-        //scene.add( light_helper );
 
         /******************************************************************************************/
 
         black_hole = new BlackHole();
         black_hole.show(scene);
+
+        const params = {
+          isJetting: black_hole.isJetting,
+          jettingInterval: black_hole.jettingInterval,
+          jetMult: black_hole.jetMult
+        }
+
+        gui = new dat.GUI();
+
+        gui.add( params, 'isJetting').onChange( function ( value ) {
+          black_hole.isJetting = value;
+        } );
+
+        gui.add( params, 'jettingInterval').onChange( function ( value ) {
+          black_hole.jettingInterval = Math.ceil( value );
+        } );
+
+        gui.add( params, 'jetMult', 1, 100).onChange( function ( value ) {
+          black_hole.jetMult = Math.ceil( value );
+        } );
 
         /******************************************************************************************/
 
