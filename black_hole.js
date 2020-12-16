@@ -42,7 +42,7 @@ class BlackHole{
     const diskParticleMat = new THREE.PointsMaterial({
       vertexColors: true,
       size: 20,
-      map: THREE.ImageUtils.loadTexture(
+      map: new THREE.TextureLoader().load(
         "spark1.png"
       ),
       blending: THREE.AdditiveBlending,
@@ -89,7 +89,7 @@ class BlackHole{
     const jetParticleMat = new THREE.PointsMaterial({
       size: 60,
       color: 'lightskyblue',
-      map: THREE.ImageUtils.loadTexture(
+      map: new THREE.TextureLoader().load(
         "spark1.png"
       ),
       blending: THREE.AdditiveBlending,
