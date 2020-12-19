@@ -1,7 +1,7 @@
 {
     "type": "web",
     "file" : "index.html",
-    "discription": "..",
+    "discription": "Black hole dynamic wallpaper with audio visualizer.",
     "general": {
         "supportsaudioprocessing": true
     }
