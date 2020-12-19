@@ -1,7 +1,6 @@
 {
 	"contentrating" : "Everyone",
 	"description" : "This is a black hole.",
-	"discription" : "Black hole dynamic wallpaper with audio visualizer.",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -21,7 +20,7 @@
 				"fraction" : true,
 				"index" : 1,
 				"max" : 30,
-				"min" : 5,
+				"min" : 3,
 				"order" : 101,
 				"precision" : 1,
 				"step" : 1,
@@ -40,7 +39,7 @@
 			{
 				"fraction" : true,
 				"index" : 2,
-				"max" : 100,
+				"max" : 200,
 				"min" : 5,
 				"order" : 102,
 				"precision" : 1,
@@ -56,7 +55,7 @@
 	"tags" : [ "Abstract" ],
 	"title" : "Black Hole Audio Visulizer",
 	"type" : "Web",
-	"version" : 1,
+	"version" : 2,
 	"visibility" : "friends",
 	"workshopid" : "2326852453",
 	"workshopurl" : "steam://url/CommunityFilePage/2326852453"
