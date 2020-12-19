@@ -19,34 +19,22 @@
 
       window.onload = function() {
 
-        /******************************************************************************************/
-        /* setup the scene */
-
-        // camera
         fov = 75;
         ratio = window.innerWidth / window.innerHeight;
         zNear = 1;
-        zFar = 10000000;
+        zFar = 1000000;
         camera = new THREE.PerspectiveCamera( fov, ratio, zNear, zFar );
         camera.position.set( -800, 300, 1700 );
         camera.up.set(-.5, 1, 0);
 
-        // renderer
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
-        // camera control
         controls = new THREE.TrackballControls( camera, renderer.domElement );
         controls.enabled = false;
 
-        // scene
         scene = new THREE.Scene();
-
-        ambientLight = new THREE.AmbientLight( 0x040404 );
-        scene.add( ambientLight );
-
-        /******************************************************************************************/
 
         black_hole = new BlackHole();
         black_hole.show(scene);
@@ -56,16 +44,10 @@
       }
 
       function animate() {
-
         black_hole.onAnimate();
-
-        controls.update();
         renderer.render( scene, camera );
-
         requestAnimationFrame( animate );
-
       }
-
 
     </script>
   </head>
