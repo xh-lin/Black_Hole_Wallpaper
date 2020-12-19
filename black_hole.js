@@ -69,6 +69,7 @@ class BlackHole{
     this.diskStart = 100;
     this.diskRange = 1000;
     this.diskThickness = 30;
+    this.strength = 60; // for audio visualizer
     
    // particle variables (acceleration disk)
     this.diskParticleCount = 30000;
@@ -119,9 +120,10 @@ class BlackHole{
     // =========================================================================
     // jet
 
-    this.jetEnabled = true;
+    this.jetEnabled = false;
     this.jettingInterval = 1;
     this.jetCountDown = 0; // don't change, it's for jettingInterval
+    this.jetMult = 30; // multiplier for jetAmount
     this.jetAmount = 0; // don't change, amount of particles to launch every time
     this.jetNext = 0; // don't change, id of next particle to launch
     this.jetDirection = 1; // don't change, for launching particles in both directions
@@ -198,13 +200,12 @@ class BlackHole{
     window.wallpaperRegisterAudioListener(listener);
 
     // audio visualizer Animation for disk
-    const strength = 40;
     let max = 0;
     for (const [i, part] of audio.entries()) {
       let dFreqs = diskFrequencies[i];
       for (const dFreq of dFreqs) {
         let dParticle = this.diskParticles.vertices[dFreq];
-        dParticle.y = dParticle.initY + audio[i] * strength;
+        dParticle.y = dParticle.initY + audio[i] * this.strength;
       }
       // get max of left and right channels
       if((i == 64 || i == 0) && max < part) 
@@ -212,9 +213,8 @@ class BlackHole{
     }
 
     // audio visualizer Animation for jet
-    const jetMult = 30;
     const clampVal = 1;
-    this.jetAmount = jetMult*Math.min(clampVal, max) + 1;
+    this.jetAmount = this.jetMult*Math.min(clampVal, max) + 1;
 
     // =========================================================================
     // disk

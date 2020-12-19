@@ -17,6 +17,8 @@
 
     <script>
 
+      
+
       window.onload = function() {
 
         fov = 75;
@@ -48,6 +50,24 @@
         renderer.render( scene, camera );
         requestAnimationFrame( animate );
       }
+
+      window.wallpaperPropertyListener = {
+        applyUserProperties: function(properties) {
+
+          if (properties.enablejet) {
+            black_hole.jetEnabled = properties.enablejet.value;
+          }
+
+          if (properties.jetparticlemultiplier) {
+            black_hole.jetMult = properties.jetparticlemultiplier.value;
+          }
+
+          if (properties.strength) {
+            black_hole.strength = properties.strength.value;
+          }
+          
+        }
+      };
 
     </script>
   </head>
