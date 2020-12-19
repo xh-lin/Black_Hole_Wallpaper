@@ -14,12 +14,13 @@ colorBetween = function(colorA, colorB, alpha) {
   const dB = colorB.b - colorA.b;
   return new THREE.Color( colorA.r+dR*alpha, colorA.g+dG*alpha, colorA.b+dB*alpha );
 };
+
 // audio array: 128 elements include each elements are float from 0 to 1
 let audio = [];
 const listener = arr => {
   audio = arr;
 }
-// audio frequency
+// disk Frequency
 let diskFrequencies = [];
 for (var i = 0; i < 128; i++){
   diskFrequencies.push([]);
@@ -162,7 +163,7 @@ class BlackHole{
   }
 
   onAnimate() {
-    // audio listener
+    // audio listener for wall paper enigne
     window.wallpaperRegisterAudioListener(listener);
     // for each disk particle
     var dpCount = this.diskParticleCount;
@@ -176,7 +177,7 @@ class BlackHole{
       const angular_velocity = c / Math.pow(dst-this.diskStart+d, p);
       dParticle.applyAxisAngle( this.rotateAxis, angular_velocity );
     }
-    // audio Animation for disk
+    // audio visualizer Animation for disk
     var max = 0;
     for (const [i, part] of audio.entries()) {
       var dFreq = diskFrequencies[i];
@@ -187,7 +188,7 @@ class BlackHole{
         max = part;
       }
     }
-    // jet 
+    // audio visualizer Animation for jet
     this.jetMult = 30 * max + 0.1;
     
     // flag to the particle system that we've changed its vertices.
