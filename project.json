@@ -1,0 +1,62 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "This is a black hole.",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"enablejet" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "Enable jet",
+				"type" : "bool",
+				"value" : true
+			},
+			"jetparticlemultiplier" : 
+			{
+				"condition" : "enablejet.value == true",
+				"fraction" : true,
+				"index" : 1,
+				"max" : 30,
+				"min" : 3,
+				"order" : 101,
+				"precision" : 1,
+				"step" : 1,
+				"text" : "Jet Particle Multiplier",
+				"type" : "slider",
+				"value" : 30
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"strength" : 
+			{
+				"fraction" : true,
+				"index" : 2,
+				"max" : 200,
+				"min" : 5,
+				"order" : 102,
+				"precision" : 1,
+				"step" : 1,
+				"text" : "Strength",
+				"type" : "slider",
+				"value" : 60
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Abstract" ],
+	"title" : "Black Hole Audio Visulizer",
+	"type" : "Web",
+	"version" : 2,
+	"visibility" : "friends",
+	"workshopid" : "2326852453",
+	"workshopurl" : "steam://url/CommunityFilePage/2326852453"
+}

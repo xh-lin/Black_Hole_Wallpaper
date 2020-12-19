@@ -14,83 +14,60 @@
     <script src="black_hole.js" type="text/javascript"></script>
     <script src="https://threejs.org/build/three.min.js" type="text/javascript"></script>
     <script src="https://threejs.org/examples/js/controls/TrackballControls.js" type="text/javascript"></script>
-    <script src="https://threejs.org/examples/js/libs/dat.gui.min.js" type="text/javascript"></script>
-    <script src='https://josephg.github.io/noisejs/perlin.js'></script>
 
     <script>
 
+      
+
       window.onload = function() {
 
-        /******************************************************************************************/
-        /* setup the scene */
-
-        // camera
         fov = 75;
         ratio = window.innerWidth / window.innerHeight;
         zNear = 1;
-        zFar = 10000000;
+        zFar = 1000000;
         camera = new THREE.PerspectiveCamera( fov, ratio, zNear, zFar );
         camera.position.set( -800, 300, 1700 );
         camera.up.set(-.5, 1, 0);
 
-        // renderer
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
-        // trackball control
         controls = new THREE.TrackballControls( camera, renderer.domElement );
-        controls.rotateSpeed = 5.0;
+        controls.enabled = false;
 
-        // scene
         scene = new THREE.Scene();
-
-        ambientLight = new THREE.AmbientLight( 0x040404 );
-        scene.add( ambientLight );
-
-
-        /******************************************************************************************/
 
         black_hole = new BlackHole();
         black_hole.show(scene);
-
-        const params = {
-          isJetting: black_hole.isJetting,
-          jettingInterval: black_hole.jettingInterval,
-          jetMult: black_hole.jetMult
-        }
-
-        gui = new dat.GUI();
-
-        gui.add( params, 'isJetting').onChange( function ( value ) {
-          black_hole.isJetting = value;
-        } );
-
-        gui.add( params, 'jettingInterval', 0, 100).onChange( function ( value ) {
-          black_hole.jettingInterval = Math.ceil( value );
-        } );
-
-        gui.add( params, 'jetMult', 1, 100).onChange( function ( value ) {
-          black_hole.jetMult = Math.ceil( value );
-        } );
-
-        /******************************************************************************************/
 
         animate();
 
       }
 
       function animate() {
-
         black_hole.onAnimate();
-
-        controls.update();
         renderer.render( scene, camera );
-
         requestAnimationFrame( animate );
-
       }
 
+      window.wallpaperPropertyListener = {
+        applyUserProperties: function(properties) {
+
+          if (properties.enablejet) {
+            black_hole.jetEnabled = properties.enablejet.value;
+          }
+
+          if (properties.jetparticlemultiplier) {
+            black_hole.jetMult = properties.jetparticlemultiplier.value;
+          }
+
+          if (properties.strength) {
+            black_hole.strength = properties.strength.value;
+          }
+          
+        }
+      };
 
     </script>
   </head>
