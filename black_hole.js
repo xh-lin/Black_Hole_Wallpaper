@@ -1,7 +1,9 @@
 /* 
   Reference(s):
   Aerotwist - Creating Particles with Three.js
-  https://aerotwist.com/tutorials/creating-particles-with-three-js/ 
+  https://aerotwist.com/tutorials/creating-particles-with-three-js/
+  Advanced: Web audio visualizer
+  https://steamcommunity.com/sharedfiles/filedetails/?id=786006047
 */
 
 // get color in between from color A to B
@@ -12,7 +14,7 @@ colorBetween = function(colorA, colorB, alpha) {
   const dB = colorB.b - colorA.b;
   return new THREE.Color( colorA.r+dR*alpha, colorA.g+dG*alpha, colorA.b+dB*alpha );
 };
-// audio listener
+// audio array: 128 elements include each elements are float from 0 to 1
 let audio = [];
 const listener = arr => {
   audio = arr;
