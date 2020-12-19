@@ -12,9 +12,19 @@ colorBetween = function(colorA, colorB, alpha) {
   const dB = colorB.b - colorA.b;
   return new THREE.Color( colorA.r+dR*alpha, colorA.g+dG*alpha, colorA.b+dB*alpha );
 };
+// audio listener
+let audio = [];
+const listener = arr => {
+  audio = arr;
+}
+// audio frequency
+let diskFrequencies = [];
+for (var i = 0; i < 128; i++){
+  diskFrequencies.push([]);
+}
 
 class BlackHole{
-
+  
   constructor() {
 
     var colors = [];
@@ -24,13 +34,12 @@ class BlackHole{
     colors.push(new THREE.Color('blue'));
 
     // black sphere (event horizon)
-    const sphereGeo = new THREE.SphereGeometry( 90, 90, 90 );
+    const sphereGeo = new THREE.SphereGeometry( 60, 60, 60 );
     const darkMat = new THREE.MeshStandardMaterial({ color: 'black' });
     this.sphereMesh = new THREE.Mesh( sphereGeo, darkMat );
     
     // =========================================================================
     // disk
-    noise.seed(Math.random());
     this.rotateAxis = new THREE.Vector3( 0, 1, 0 );
     this.diskStart = 100;
     this.diskRange = 1000;
@@ -54,11 +63,11 @@ class BlackHole{
     for (var p = 0; p < this.diskParticleCount; p++) {
       // position
       const theta = Math.random() * 2*Math.PI;
-      const radius = Math.random()*this.diskRange + this.diskStart + 200*noise.perlin2(1, theta*300);
+      const radius = Math.random()*this.diskRange + this.diskStart;
       const x = radius * Math.cos( theta );
       const y = Math.random()*this.diskThickness - this.diskThickness/2;
       const z = radius * Math.sin( theta );
-      var particle = new THREE.Vector3( x, y, z );
+      var particle = new THREE.Vector3( x, y, z ); 
       this.diskParticles.vertices.push( particle );
       // color
       if (radius < 400) {
@@ -71,6 +80,10 @@ class BlackHole{
         const a = (radius - 700) / 300;
         this.diskParticles.colors.push( colorBetween(colors[2], colors[3], a) );
       }
+      // audio
+      particle.InitialValY = y; 
+      var newIndec = Math.floor(radius * 128 / 1200)
+      diskFrequencies[newIndec].push(p);
     }
 
     this.diskParticleSystem = new THREE.Points( this.diskParticles, diskParticleMat );
@@ -80,7 +93,7 @@ class BlackHole{
     this.isJetting = true;
     this.jettingInterval = 1;
     this.jetCountDown = 0;
-    this.jetMult = 3;
+    this.jetMult = 0;
     this.jetNext = 0;
     this.jetDirection = 1; // 1 / -1
 
@@ -147,6 +160,8 @@ class BlackHole{
   }
 
   onAnimate() {
+    // audio listener
+    window.wallpaperRegisterAudioListener(listener);
     // for each disk particle
     var dpCount = this.diskParticleCount;
     while (dpCount--) {
@@ -159,7 +174,20 @@ class BlackHole{
       const angular_velocity = c / Math.pow(dst-this.diskStart+d, p);
       dParticle.applyAxisAngle( this.rotateAxis, angular_velocity );
     }
-
+    // audio Animation for disk
+    var max = 0;
+    for (const [i, part] of audio.entries()) {
+      var dFreq = diskFrequencies[i];
+      for (var j = 0; j < dFreq.length; j++) {
+        this.diskParticles.vertices[dFreq[j]].y = dParticle.InitialValY + audio[i] * 60;
+      }
+      if(( i == 64 || i == 0 ) && max < part){
+        max = part;
+      }
+    }
+    // jet 
+    this.jetMult = 30 * max + 0.1;
+    
     // flag to the particle system that we've changed its vertices.
     this.diskParticleSystem.geometry.verticesNeedUpdate = true;
 
@@ -201,7 +229,6 @@ class BlackHole{
         jParticle.add(jParticle.velocity);
       }
     }
-
     // flag to the particle system that we've changed its vertices.
     this.jetParticleSystem.geometry.verticesNeedUpdate = true;
   }

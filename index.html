@@ -60,22 +60,26 @@
           jetMult: black_hole.jetMult
         }
 
-        gui = new dat.GUI();
+        // gui = new dat.GUI();
 
-        gui.add( params, 'isJetting').onChange( function ( value ) {
-          black_hole.isJetting = value;
-        } );
+        // gui.add( params, 'isJetting').onChange( function ( value ) {
+        //   black_hole.isJetting = value;
+        // } );
 
-        gui.add( params, 'jettingInterval', 0, 100).onChange( function ( value ) {
-          black_hole.jettingInterval = Math.ceil( value );
-        } );
+        // gui.add( params, 'jettingInterval', 0, 100).onChange( function ( value ) {
+        //   black_hole.jettingInterval = Math.ceil( value );
+        // } );
 
-        gui.add( params, 'jetMult', 1, 100).onChange( function ( value ) {
-          black_hole.jetMult = Math.ceil( value );
-        } );
+        // gui.add( params, 'jetMult', 0, 30).onChange( function ( value ) {
+        //   black_hole.jetMult = Math.ceil( value );
+        // } );
 
         /******************************************************************************************/
-
+        geometry = new THREE.SphereGeometry( 10, 32, 32 );
+        material = new THREE.MeshStandardMaterial({ color: (0xff00ff)});
+        c = new THREE.Mesh( geometry, material );
+        c.position.set(-800, 300, 1600);
+        scene.add( c );
         animate();
 
       }
