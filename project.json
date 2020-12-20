@@ -52,11 +52,11 @@
 		"supportsaudioprocessing" : true
 	},
 	"preview" : "preview.jpg",
-	"tags" : [ "Abstract" ],
-	"title" : "Black Hole Audio Visulizer",
+	"tags" : [ "Unspecified" ],
+	"title" : "Black Hole Audio Visualizer",
 	"type" : "Web",
-	"version" : 2,
-	"visibility" : "friends",
-	"workshopid" : "2326852453",
-	"workshopurl" : "steam://url/CommunityFilePage/2326852453"
+	"version" : 1,
+	"visibility" : "public",
+	"workshopid" : "2326920718",
+	"workshopurl" : "steam://url/CommunityFilePage/2326920718"
 }
