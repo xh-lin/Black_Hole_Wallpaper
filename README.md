@@ -1,7 +1,9 @@
 # Black Hole Audio Visualizer
 A dynamic wallpaper for Wallpaper Engine.
 ## Steam Workshop
- - https://steamcommunity.com/sharedfiles/filedetails/?id=2326920718
+- https://steamcommunity.com/sharedfiles/filedetails/?id=2326920718
+## Video Demo
+- https://youtu.be/OmoLgRy_NMs
 ## Contributors:
 - Xu Huang Lin [(xh-lin)](https://github.com/xh-lin)
 - Pengbo Xing [(BobbyXing)](https://github.com/BobbyXing)
