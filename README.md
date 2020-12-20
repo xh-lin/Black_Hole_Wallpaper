@@ -1,5 +1,5 @@
 # Black Hole Audio Visualizer
-<img src="report_preview.jpg">
+<div><img src="report_preview.jpg"></div>
 A dynamic wallpaper for Wallpaper Engine.
 ## Steam Workshop
 - https://steamcommunity.com/sharedfiles/filedetails/?id=2326920718
