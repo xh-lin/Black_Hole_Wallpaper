@@ -9,5 +9,4 @@ A dynamic wallpaper for Wallpaper Engine.
 - Xu Huang Lin [(xh-lin)](https://github.com/xh-lin): Particle System
 - Pengbo Xing [(BobbyXing)](https://github.com/BobbyXing): Audio Visualizer
 ## License
-- You can do whatever you want with it, but no commercial use nor for profiting.
-Must state the source and original contributors.
+- You can do whatever you want with it. Please state the source.
